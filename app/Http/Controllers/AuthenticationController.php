@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class AuthenticationController extends Controller
 {
@@ -20,25 +20,16 @@ class AuthenticationController extends Controller
     public function check(Request $request)
     {
         $request->validate([
-            'username'=>'required',
-            'password'=>'required'
+            'username' => ['required'],
+            'password' => ['required'],
         ]);
 
-        $userInfo = User::where('username','=',$request->username)->first();
-        
-        
-        if(!$userInfo){
-            return back()->with('fail','We do not recognize your username');
+        $credentials = $request->only('username', 'password');
+
+        if (Auth::attempt($credentials)) {
+            return redirect()->intended('dashboard');
         }
-        else{
-            if($request->password == $userInfo->password){
-                $request->session()->put('LoggedUser', $userInfo->id);
-                return redirect()->route('dashboard');
-            }
-            else{
-                return back()->with('fail','Incorrect password');
-            }
-        }
+        return back()->with('fail','We do not recognize your credentials');
 
     }
 
