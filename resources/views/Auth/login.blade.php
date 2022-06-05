@@ -8,6 +8,12 @@
             <p class="caption">Please enter your login details to sign in</p>
             <form action="{{ route('check') }}" method="post" class="pt-2">
             
+            @if(Session::get('success'))
+                <div class="alert alert-success mb-2">
+                    {{Session::get('success')}}
+                </div>
+            @endif
+
             @if(Session::get('fail'))
                 <div class="alert alert-danger mb-2">
                     {{Session::get('fail')}}
