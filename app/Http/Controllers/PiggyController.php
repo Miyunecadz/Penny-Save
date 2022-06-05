@@ -10,7 +10,13 @@ use Illuminate\Support\Facades\Validator;
 
 class PiggyController extends Controller
 {
-    public function create(Request $request)
+
+    public function create()
+    {
+        return view('piggy-bank.create');
+    }
+
+    public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
