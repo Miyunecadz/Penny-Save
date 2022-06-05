@@ -22,11 +22,14 @@ Route::controller(AuthenticationController::class)->group(function() {
     Route::post('/check', 'check')->name('check');
 });
 
-Route::get('piggy-bank/create', [PiggyController::class, 'create'])->name('piggy.create');
-Route::post('/piggy-bank/create', [PiggyController::class, 'store'])->name('piggy.store');
+
 
 Route::middleware('auth')->group(function(){
+
     Route::get('/', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::get('piggy-bank/create', [PiggyController::class, 'create'])->name('piggy.create');
+    Route::post('/piggy-bank/create', [PiggyController::class, 'store'])->name('piggy.store');
 });
