@@ -15,9 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('dashboard');
-})->name('dashboard');
 
 Route::controller(AuthenticationController::class)->group(function() {
     Route::get('/login', 'login')->name('login');
@@ -26,9 +23,14 @@ Route::controller(AuthenticationController::class)->group(function() {
     Route::post('/save', 'save')->name('save');
 });
 
-Route::get('piggy-bank/create', [PiggyController::class, 'create'])->name('piggy.create');
-Route::post('/piggy-bank/create', [PiggyController::class, 'store'])->name('piggy.store');
+
 
 Route::middleware('auth')->group(function(){
 
+    Route::get('/', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    Route::get('piggy-bank/create', [PiggyController::class, 'create'])->name('piggy.create');
+    Route::post('/piggy-bank/create', [PiggyController::class, 'store'])->name('piggy.store');
 });

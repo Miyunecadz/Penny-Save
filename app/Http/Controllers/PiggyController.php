@@ -6,6 +6,7 @@ use App\Models\Piggy;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class PiggyController extends Controller
@@ -28,13 +29,19 @@ class PiggyController extends Controller
             return redirect()->back()->withErrors($validator->errors())->withInput();
         }
 
-        $piggy = Piggy::create($request->all());
+        $piggy = Piggy::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'amount' => $request->amount?? 0,
+            'range' => $request->range,
+            'owner_id' => Auth::id()
+        ]);
 
         if($request->amount > 0)
         {
             Transaction::create([
                 'piggy_bank_id' => $piggy->id,
-                'date' => Carbon::parse(now())->format('mdY'),
+                'date' => Carbon::parse(now())->format('Y-m-d'),
                 'amount' => $piggy->amount
             ]);
         }
