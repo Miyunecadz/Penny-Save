@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\PiggyController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,4 +23,11 @@ Route::controller(AuthenticationController::class)->group(function() {
     Route::get('/login', 'login')->name('login');
     Route::get('/register', 'register')->name('register');
     Route::post('/check', 'check')->name('check');
+});
+
+Route::get('piggy-bank/create', [PiggyController::class, 'create'])->name('piggy.create');
+Route::post('/piggy-bank/create', [PiggyController::class, 'store'])->name('piggy.store');
+
+Route::middleware('auth')->group(function(){
+
 });
