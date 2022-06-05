@@ -23,14 +23,12 @@ class AuthenticationController extends Controller
             'username' => ['required'],
             'password' => ['required'],
         ]);
-
         $credentials = $request->only('username', 'password');
-
         if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
             return redirect()->intended('dashboard');
         }
         return back()->with('fail','We do not recognize your credentials');
-
     }
 
 }
